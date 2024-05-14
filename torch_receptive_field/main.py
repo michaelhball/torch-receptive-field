@@ -97,7 +97,7 @@ def get_rf_data(module: nn.Module, input_shape: tuple[int, int], max_depth: int 
         if x.depth == max_depth:
             new_values = x.values()
             j = i + 1
-            while len(data) >= j and data[j].depth > max_depth:
+            while len(data) > j and data[j].depth > max_depth:
                 new_values = data[j].values()
                 j += 1
             x = x.replace_values(new_values)
