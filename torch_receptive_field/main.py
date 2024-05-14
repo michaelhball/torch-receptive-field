@@ -5,7 +5,7 @@ from typing import Iterator
 from tabulate import tabulate
 from torch import nn
 
-__all__ = ["get_rf_data", "print_rf"]
+__all__ = ["get_layer_names", "get_rf_data", "print_rf"]
 
 
 @dataclass
@@ -34,8 +34,12 @@ class LayerRFData:
 def iter_module(module: nn.Module) -> Iterator[tuple[str, nn.Module]]:
     """Recursively iterates over all the modules in the given module."""
 
-    for name, _module in module.named_modules():
-        yield name, _module
+    for layer_name, layer in module.named_modules():
+        yield layer_name, layer
+
+
+def get_layer_names(module: nn.Module) -> list[str]:
+    return [layer_name for layer_name, _ in iter_module(module)]
 
 
 def is_custom_module(module: nn.Module) -> bool:
